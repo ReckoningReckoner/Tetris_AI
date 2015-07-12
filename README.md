@@ -1,3 +1,3 @@
 #Tetris_AI
 
-I don't know what to write lol
+An attempt at the AI Block battle
