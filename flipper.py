@@ -4,13 +4,13 @@ def all(obj, n):
     rots = []
     for i in range(n):
         rots.append(obj)
-        obj = rotate_left(obj)
+        obj = rotate_clockwise(obj)
         
     return rots
 
-##rotates an object left 90 degrees
-def rotate_left(obj):
-    return reverse_row(transpose(obj))
+##rotates an clockwise left 90 degrees
+def rotate_clockwise(obj):
+    return transpose(reverse_row(obj))
     
 
 ##reverses each individual array in an array of arrays
