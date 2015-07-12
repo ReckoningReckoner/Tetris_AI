@@ -12,7 +12,6 @@ def all(obj, n):
 def rotate_clockwise(obj):
     return transpose(reverse_row(obj))
     
-
 ##reverses each individual array in an array of arrays
 # ex:
 # [[1,2,3],[4,5,6]]
