@@ -50,5 +50,5 @@ def main():
             debug.show(bm.simulate())
 
 
-main()
+main() #Runs everything
 
