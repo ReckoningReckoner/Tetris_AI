@@ -71,7 +71,6 @@ class L_Block(Block):
         self.cases = 4
         self.name  = "L"
 
-
 blocks = [ T_Block(), 
            Z_Block(), 
            O_Block(), 
@@ -80,4 +79,3 @@ blocks = [ T_Block(),
            J_Block(),
            L_Block()]
 
-    
