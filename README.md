@@ -16,4 +16,4 @@ An attempt at the AI Block battle.
 - More complex strategies (combos?)
 - Creating a set of instructions to get to the best move
 - Battle block engine implementaion
-  
+- Bug where program crashes if tower gets too high
