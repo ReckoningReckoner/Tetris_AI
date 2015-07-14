@@ -13,8 +13,6 @@ An attempt at the AI Block battle.
 
 
 #Still to come:
-- Towerauto cancel
-- Piece falling simulation
+- Piece falling instructions
 - More complex strategies (combos?)
 - Battle block engine implementaion
-- Bug where program crashes if tower gets too high
