@@ -2,8 +2,9 @@ import copy
 
 #places a block in a grid given the top left y and x coordinate
 #returns that grid with said block
-def place(y, x, grid, block, n=1):
-    grid = copy.deepcopy(grid)
+def place(y, x, grid, block, n=1, mode =""):
+    if mode == 'dc':
+        grid = copy.deepcopy(grid)
     for y_p in range(y, y-len(block), -1):
         for x_p in range(x, x+len(block[0])):
             y_b = len(block)-1-y+y_p

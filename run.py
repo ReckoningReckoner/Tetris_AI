@@ -4,7 +4,6 @@ import best_move
 import placer
 from random import randint
 
-
 def get_command():
         s = input('> ')
         if s == 'q': 
@@ -45,10 +44,10 @@ def play():
     print("Press 'q' to exit")
     
     c = 0
-    
     while True: 
         c+=1
-        if c == 9: c = 1        
+        if c == 9: c = 1 
+               
         b = get_command()
         if b == -1: break
         
@@ -60,7 +59,6 @@ def play():
             else:
                 a.append(bpm.simulate())
                 
-    
         best = best_move.final(a)
         print(best[0:3])
         grid = placer.place(best[2][0], best[2][1], grid, best[3], c)

@@ -3,7 +3,7 @@ def show(obj):
     for y in range(len(obj)):
         for x in range(len(obj[y])):
             if obj[y][x] == 0:
-                print('-', end='')
+                print('_', end='')
             else:
                 print(obj[y][x], end="")
         print("")

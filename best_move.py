@@ -68,7 +68,7 @@ class Best_Possible_Moves:
     #If a move is legal, place the block at the given y and x coordinate
     #Count the cells occupied per row, and return the value plus the 
     def try_place(self, y, x, grid):
-        grid = placer.place(y, x, grid, self.block, 2)
+        grid = placer.place(y, x, grid, self.block, 2, 'dc')
         if grid != None and self.check_lowest(y, x, grid):
             if show_debug:
                 print("Block and grid")
@@ -108,5 +108,3 @@ class Best_Possible_Moves:
             
         return [columns, holes, [y_c,x_c]]
         
-        
- 
