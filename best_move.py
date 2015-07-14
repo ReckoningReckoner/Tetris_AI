@@ -1,5 +1,6 @@
 import debug
 import placer
+import tracer
 from random import randint
 
 show_debug = False
@@ -7,15 +8,22 @@ show_debug = False
 ##The "best move" is the one that creates the least number of holes and rows
 #If there are multiple possible "best moves", it randomly picks the best and lowest
 def final(a):    
-    lowest_height = sorted(a, key=lambda x: x[0])[0][0]
+    a.sort(key=lambda x: x[0])
+    lowest_height = a[0][0]
+    
     for i in range(len(a)-1, -1, -1):
-        if a[i][0] != lowest_height:
+        if a[i][0] > lowest_height:
             a.pop(i)
             
-    if len(a) > 1:
-        return a[randint(0,len(a)-1)]
-    else: 
-        return  a[0]         
+    a = sorted(a, key=lambda x: x[1])
+    lowest_holes = a[0][1]
+    
+    for i in range(len(a)-1, -1, -1):
+        if a[i][1] > lowest_holes:
+            a.pop(i)
+                
+    
+    return a[randint(0, len(a)-1)]
 
 
 class Best_Possible_Moves:
@@ -26,7 +34,7 @@ class Best_Possible_Moves:
                 
     ##Find the first empty row
     def first_empty_row(self):
-        for y in range(len(self.grid)-1, -1, -1):
+        for y in range(len(self.grid)):
             count = 0
             for x in range(len(self.grid[y])):
                 if self.grid[y][x] != 0:
@@ -49,7 +57,7 @@ class Best_Possible_Moves:
             return
             
         if show_debug:
-            print("First empty row",first_empty)
+            print("Simulate First empty row",first_empty)
         
         for y in range(len(self.grid)-1, first_empty-1, -1):
             for x in range(len(self.grid[y])-len(self.block[0])+1):
@@ -57,11 +65,17 @@ class Best_Possible_Moves:
                 if s != None:
                     s.append(self.block)
                     scores.append(s)
-                if show_debug:
-                    print("Printing s")
-                    print(s)
-                    
-        return sorted(scores, key=lambda x: x[0])[0]
+                    if show_debug:
+                        print("Simulate Printing s")
+                        print(s)
+        if show_debug:
+            print("Simulate These are the scores:")
+            for i in scores:
+                print(i[0:2])
+            print('Simulate This is what is being returned')
+            print(final(scores))
+            
+        return final(scores)
             
     #Temporarily places a block in any position
     #If move is illegal it returns False
@@ -70,10 +84,10 @@ class Best_Possible_Moves:
     def try_place(self, y, x, grid):
         grid = placer.place(y, x, grid, self.block, 2, 'dc')
         if grid != None and self.check_lowest(y, x, grid):
-            if show_debug:
-                print("Block and grid")
+            if show_debug:           
+                print("try_place Block")
                 debug.show(self.block)
-                print("")
+                print("try_place Grid")
                 debug.show(grid)
             return self.count_lines(grid, y, x)
 
@@ -93,18 +107,11 @@ class Best_Possible_Moves:
     #Count the columns each cell occupies
     def count_lines(self, grid, y_c, x_c):
         columns = 0
-        holes = 0
         for y in range(len(grid)-1, -1, -1):
-            has_stuff = False
-            h = 0
             for x in range(len(grid[y])):
                 if grid[y][x] != 0:
-                    has_stuff = True
-                else:
-                    h += 1
-            if has_stuff == True:
-                columns += 1
-                holes += h
+                    columns += 1
+                    break
             
-        return [columns, holes, [y_c,x_c]]
+        return [columns, tracer.Tracer(grid).run(), [y_c,x_c]]
         

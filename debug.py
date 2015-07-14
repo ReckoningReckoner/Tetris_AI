@@ -8,7 +8,7 @@ def show(obj):
                 print(obj[y][x], end="")
         print("")
         
-## Shows all arrays in an iterable
+## Shows all rotations of a piece
 def print_r(it):
     for r in it:
         show(r)

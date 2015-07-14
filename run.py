@@ -2,12 +2,14 @@ import builder
 import debug
 import best_move
 import placer
+import sys
 from random import randint
+show_debug = True
 
 def get_command():
         s = input('> ')
         if s == 'q': 
-            return -1
+            sys.exit()
         elif s == 'l':
             return builder.L_Block()
         elif s == 'o':
@@ -43,23 +45,24 @@ def play():
     print("Pressing the lowercase name of a block will generate said block")
     print("Press 'q' to exit")
     
-    c = 0
     while True: 
-        c+=1
-        if c == 9: c = 1 
-               
-        b = get_command()
-        if b == -1: break
-        
-        a = []
-        for r in b.rotations():
-            bpm = best_move.Best_Possible_Moves(grid, r)
-            if bpm.simulate() == None: 
-                return
-            else:
-                a.append(bpm.simulate())
+        b = get_command()        
+        try: 
+            a = []
+            for r in b.rotations():
+                bpm = best_move.Best_Possible_Moves(grid, r)
+                sim = bpm.simulate()
+                if sim == None: 
+                    return
+                else:
+                    a.append(sim)
                 
-        best = best_move.final(a)
-        print(best[0:3])
-        grid = placer.place(best[2][0], best[2][1], grid, best[3], c)
-        debug.show(grid)
+            best = best_move.final(a)
+            grid = placer.place(best[2][0], best[2][1], grid, best[3], b.type())
+            
+            if show_debug:
+                print("Run best moves:")
+                print(best[0:3])
+                debug.show(grid)
+        except:
+            print(Exception)
