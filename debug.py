@@ -3,9 +3,9 @@ def show(obj):
     for y in range(len(obj)):
         for x in range(len(obj[y])):
             if obj[y][x] == 0:
-                print('_', end='')
+                print('_'),
             else:
-                print(obj[y][x], end="")
+                print(obj[y][x]),
         print("")
         
 ## Shows all rotations of a piece

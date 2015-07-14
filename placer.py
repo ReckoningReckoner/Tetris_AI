@@ -2,6 +2,7 @@ import copy
 
 #places a block in a grid given the top left y and x coordinate
 #returns that grid with said block
+
 def place(y, x, grid, block, n=1, mode =""):
     if mode == 'dc':
         grid = copy.deepcopy(grid)

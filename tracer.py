@@ -3,7 +3,7 @@ import copy
 
 show_debug = False
 
-##Counts the number of hole in a grid
+##Counts the number of holes in a grid
 #Used for prioritizing block placement
 
 class Tracer:
@@ -25,12 +25,7 @@ class Tracer:
                 return y
         else:
             return -1
-                
-    def reassign(self):
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                if self.grid[y][x] == 'a':
-                    self.grid[y][x] = 'b'
+            
                     
     def trace(self, y, x):
         if  (0 <= y < len(self.grid) and 
@@ -41,8 +36,7 @@ class Tracer:
                 
                 self.grid[y][x] = 'a'
                 return True
-                    
-                    
+                            
     def run(self):
         self.first_empty = self.first_empty_row()
         for y in range(self.first_empty+2, len(self.grid), 1):

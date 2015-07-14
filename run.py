@@ -4,10 +4,11 @@ import best_move
 import placer
 import sys
 from random import randint
+
 show_debug = True
 
 def get_command():
-        s = input('> ')
+        s = raw_input('> ')
         if s == 'q': 
             sys.exit()
         elif s == 'l':
@@ -64,5 +65,6 @@ def play():
                 print("Run best moves:")
                 print(best[0:3])
                 debug.show(grid)
+                
         except:
             print(Exception)

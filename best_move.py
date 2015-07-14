@@ -1,3 +1,14 @@
+##This module finds the best possible move
+#The best move is the one that results in the lowest new tower height and the fewest number of "holes"
+#The best move is prioritized in this order
+# 1.Smallest tower height
+# 2.Fewest number of holes
+# Example of hole:
+# xxxxx The "x"'s represent occupied slots (a piece is found here)
+# x---x The "-"'s in this row represent holes because no falling piece can displace it
+# xxxxx
+
+
 import debug
 import placer
 import tracer
@@ -5,8 +16,7 @@ from random import randint
 
 show_debug = False
 
-##The "best move" is the one that creates the least number of holes and rows
-#If there are multiple possible "best moves", it randomly picks the best and lowest
+#Finds the absolute best move from a list of possible moves
 def final(a):    
     a.sort(key=lambda x: x[0])
     lowest_height = a[0][0]
@@ -25,7 +35,8 @@ def final(a):
     
     return a[randint(0, len(a)-1)]
 
-
+#Finds the best possible move based on a particular rotation of a peice
+#Each piece rotation creates an instance of this class (from run.py)
 class Best_Possible_Moves:
     
     def __init__(self, grid, block):
