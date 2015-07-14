@@ -12,6 +12,7 @@ class Block:
     #name is the name of the block
     def __init__(self):
         self.obj
+        self.rot
         self.cases
         self.name
         
@@ -34,13 +35,13 @@ class Z_Block(Block):
     def __init__(self):
         self.obj   = [[1,1,0],
                       [0,1,1]]
-        self.cases = 2
+        self.cases = 4
         self.name  = "Z"
         
 class O_Block(Block):
     def __init__(self):
         self.obj   = [[1,1],
-                      [1,1]]
+                     [1,1]]
         self.cases = 1
         self.name  = "O"
         
@@ -54,7 +55,7 @@ class S_Block(Block):
 class I_Block(Block):
     def __init__(self):
         self.obj   = [[1,1,1,1]]
-        self.cases = 2
+        self.cases = 4
         self.name  = "I"
 
 class J_Block(Block):
@@ -79,3 +80,4 @@ blocks = [ T_Block(),
            J_Block(),
            L_Block()]
 
+    

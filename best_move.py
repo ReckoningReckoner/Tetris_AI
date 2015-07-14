@@ -1,8 +1,25 @@
-import copy
 import debug
+import placer
+from random import randint
+
+show_debug = False
+
+##The "best move" is the one that creates the least number of holes and rows
+#If there are multiple possible "best moves", it randomly picks the best and lowest
+def final(a):    
+    lowest_height = sorted(a, key=lambda x: x[0])[0][0]
+    for i in range(len(a)-1, -1, -1):
+        if a[i][0] != lowest_height:
+            a.pop(i)
+            
+    if len(a) > 1:
+        return a[randint(0,len(a)-1)]
+    else: 
+        return  a[0]         
 
 
-class Best_Move:
+class Best_Possible_Moves:
+    
     def __init__(self, grid, block):
         self.grid = grid
         self.block = block
@@ -12,11 +29,13 @@ class Best_Move:
         for y in range(len(self.grid)-1, -1, -1):
             count = 0
             for x in range(len(self.grid[y])):
-                if self.grid[y][x] == 1:
+                if self.grid[y][x] != 0:
                     count += 1
                     break
             if count == 0:
                 return y
+        else:
+            return -1
         
     ##Simulates moves
     #Simulates moves up to the point where a row is empty
@@ -24,36 +43,39 @@ class Best_Move:
     #Stoms simulating after the first empty row
     def simulate(self):
         scores = []
-        print("First empty row",self.first_empty_row())
-        for y in range(len(self.grid)-1, self.first_empty_row()-1, -1):
-            for x in range(len(self.grid[y])-len(self.block[0])+1):
-                s = self.place(y, x, copy.deepcopy(self.grid))
-                if s != False:
-                    scores.append(s)
-
-        return scores
+        first_empty = self.first_empty_row()
         
-    #Places a block
+        if first_empty == -1:
+            return
+            
+        if show_debug:
+            print("First empty row",first_empty)
+        
+        for y in range(len(self.grid)-1, first_empty-1, -1):
+            for x in range(len(self.grid[y])-len(self.block[0])+1):
+                s = self.try_place(y, x, self.grid)
+                if s != None:
+                    s.append(self.block)
+                    scores.append(s)
+                if show_debug:
+                    print("Printing s")
+                    print(s)
+                    
+        return sorted(scores, key=lambda x: x[0])[0]
+            
+    #Temporarily places a block in any position
     #If move is illegal it returns False
     #If a move is legal, place the block at the given y and x coordinate
     #Count the cells occupied per row, and return the value plus the 
-    def place(self, y, x, grid):
-        lowest = False
-        for y_p in range(y, y-len(self.block), -1):
-            for x_p in range(x, x+len(self.block[0])):
-                y_b = len(self.block)-1-y+y_p
-                if grid[y_p][x_p] != 0 and self.block[y_b][x_p-x] != 0:
-                    return False
-                if self.block[y_b][x_p-x] != 0:
-                    grid[y_p][x_p] = 2
-
-        if (self.check_lowest(y, x, grid)):
-            print(True)
-            debug.show(grid)
-            print("")
-            return self.count_lines(grid)
-        else:
-            return False
+    def try_place(self, y, x, grid):
+        grid = placer.place(y, x, grid, self.block, 2)
+        if grid != None and self.check_lowest(y, x, grid):
+            if show_debug:
+                print("Block and grid")
+                debug.show(self.block)
+                print("")
+                debug.show(grid)
+            return self.count_lines(grid, y, x)
 
         
     ##Check if the current block placement is floaty
@@ -65,21 +87,26 @@ class Best_Move:
                     if self.block[y_b][x_p-x] != 0 :
                         if grid[y_p+1][x_p] != 0: return True
                         break
-            return False
         else:
             return True        
         
-    #Count the number of occupied cells after a block is placed
-    def count_lines(self, grid):
-        counts = []
+    #Count the columns each cell occupies
+    def count_lines(self, grid, y_c, x_c):
+        columns = 0
+        holes = 0
         for y in range(len(grid)-1, -1, -1):
-            c = 0
+            has_stuff = False
+            h = 0
             for x in range(len(grid[y])):
                 if grid[y][x] != 0:
-                    c += 1
-            if c == 0:
-                break
-            else:
-                counts.append([y, c])
-                
-        return counts
+                    has_stuff = True
+                else:
+                    h += 1
+            if has_stuff == True:
+                columns += 1
+                holes += h
+            
+        return [columns, holes, [y_c,x_c]]
+        
+        
+ 

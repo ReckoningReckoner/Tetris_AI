@@ -10,7 +10,11 @@ def all(obj, n):
 
 ##rotates an clockwise left 90 degrees
 def rotate_clockwise(obj):
-    return transpose(reverse_row(obj))
+    return reverse_row(transpose(obj))
+    
+def rotate_cclockwise(obj):
+    return reversed(transpose(obj))
+    
     
 ##reverses each individual array in an array of arrays
 # ex:

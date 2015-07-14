@@ -1,6 +1,3 @@
-#Put debugging related methods here
-#Many more to come
-
 ## Prints an array in an easier to view form for the console
 def show(obj):
     for y in range(len(obj)):
