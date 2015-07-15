@@ -1,4 +1,4 @@
-
+##__main__
 ##
 # Title: Tetris AI
 # Author: Viraj Bangari
@@ -10,7 +10,6 @@ from run import play
 
 def main():
     play()
-
 
 main()
 

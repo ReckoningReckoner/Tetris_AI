@@ -10,30 +10,12 @@
 
 
 import debug
-import placer
+import simulate
 import tracer
-from random import randint
-
+from prioritize import final
 show_debug = False
 
-#Finds the absolute best move from a list of possible moves
-def final(a):    
-    a.sort(key=lambda x: x[0])
-    lowest_height = a[0][0]
-    
-    for i in range(len(a)-1, -1, -1):
-        if a[i][0] > lowest_height:
-            a.pop(i)
-            
-    a = sorted(a, key=lambda x: x[1])
-    lowest_holes = a[0][1]
-    
-    for i in range(len(a)-1, -1, -1):
-        if a[i][1] > lowest_holes:
-            a.pop(i)
-                
-    
-    return a[randint(0, len(a)-1)]
+
 
 #Finds the best possible move based on a particular rotation of a peice
 #Each piece rotation creates an instance of this class (from run.py)
@@ -70,7 +52,7 @@ class Best_Possible_Moves:
         if show_debug:
             print("Simulate First empty row",first_empty)
         
-        for y in range(len(self.grid)-1, first_empty-1, -1):
+        for y in range(len(self.grid)-1, -1, -1):
             for x in range(len(self.grid[y])-len(self.block[0])+1):
                 s = self.try_place(y, x, self.grid)
                 if s != None:
@@ -85,6 +67,7 @@ class Best_Possible_Moves:
                 print(i[0:2])
             print('Simulate This is what is being returned')
             print(final(scores))
+            print(scores)
             
         return final(scores)
             
@@ -93,8 +76,8 @@ class Best_Possible_Moves:
     #If a move is legal, place the block at the given y and x coordinate
     #Count the cells occupied per row, and return the value plus the 
     def try_place(self, y, x, grid):
-        grid = placer.place(y, x, grid, self.block, 2, 'dc')
-        if grid != None and self.check_lowest(y, x, grid):
+        grid = simulate.place(y, x, grid, self.block, 2, 'dc')
+        if grid != None and self.check_lowest(y, x, grid) != None:
             if show_debug:           
                 print("try_place Block")
                 debug.show(self.block)
@@ -107,10 +90,15 @@ class Best_Possible_Moves:
     def check_lowest(self, y, x, grid):
         if y < len(self.grid)-1:
             for x_p in range(x, x+len(self.block[0])):
-                for y_p in range(y, y-len(self.block), -1):
+                if x_p >= len(self.grid[0]):
+                    return
+                for y_p in range(y, y-len(self.block)-1, -1):
+                    if y_p < 0:
+                        return 
                     y_b = len(self.block)-1-y+y_p
-                    if self.block[y_b][x_p-x] != 0 :
-                        if grid[y_p+1][x_p] != 0: return True
+                    if self.block[y_b][x_p-x] != 0 and grid[y_p+1][x_p] != 0:
+                        return True
+                    else:
                         break
         else:
             return True        
@@ -124,5 +112,6 @@ class Best_Possible_Moves:
                     columns += 1
                     break
             
-        return [columns, tracer.Tracer(grid).run(), [y_c,x_c]]
+        removed_rows = simulate.find_full_rows(grid)
+        return [columns-removed_rows, tracer.Tracer(grid).run(), removed_rows, [y_c,x_c]]
         
