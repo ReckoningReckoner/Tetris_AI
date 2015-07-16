@@ -5,10 +5,20 @@ import simulate
 import sys
 from simulate import drop_lines
 from random import randint
+show_debug = True
 from prioritize import final
 
 
-show_debug = True
+# def single_best_move(block, grid):
+#     a = []
+#     for r in block.rotations():
+#         p = best_move.Possible_Moves(grid, r).get_best_moves()
+#         if p == None:
+#             return
+#         else:
+#             a.append(p)
+#
+#     return final(a)
 
 def get_command():
         s = raw_input('> ')
@@ -31,6 +41,8 @@ def get_command():
         else: 
             return builder.blocks[randint(0, len(builder.blocks)-1)]
             
+    
+            
 def play():
     WIDTH  = 8
     HEIGHT = 20
@@ -51,18 +63,10 @@ def play():
     c,removed = 0,0
     
     while True: 
-        b = get_command()        
-        a = []
-        for r in b.rotations():
-            bpm = best_move.Best_Possible_Moves(grid, r)
-            sim = bpm.simulate()
-            if sim == None: 
-                return
-            else:
-                a.append(sim)
-    
-        best = final(a)
-        grid = simulate.place(best[3][0], best[3][1], grid, best[4], b.type())
+        block = get_command()        
+ 
+        best = best_move.single_best_move(block, grid)
+        grid = simulate.place(best[3][0], best[3][1], grid, best[4], block.type())
 
         if show_debug:
             print("Move:")

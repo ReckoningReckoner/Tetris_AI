@@ -9,10 +9,10 @@ An attempt at the AI Block battle.
 - Determining the best possible move based on the height of the tower (Jul 14)
 - Addded Apache 2.0 License (Jul 14)
 - Block placement including holes
-
+- Complex strategies
 
 
 #Still to come:
 - Piece falling instructions
-- More complex strategies (combos?)
 - Battle block engine implementaion
+- Methodology of choosing which strategy to use

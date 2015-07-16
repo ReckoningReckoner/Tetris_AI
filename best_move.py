@@ -15,36 +15,32 @@ import tracer
 from prioritize import final
 show_debug = False
 
+def single_best_move(block, grid):
+    a = []
+    for r in block.rotations():
+        p = Possible_Moves(grid, r).get_best_moves()
+        if p == None: 
+            return
+        else:
+            a.append(p)
 
-
+    return final(a)
+    
 #Finds the best possible move based on a particular rotation of a peice
 #Each piece rotation creates an instance of this class (from run.py)
-class Best_Possible_Moves:
+class Possible_Moves:
     
     def __init__(self, grid, block):
         self.grid = grid
         self.block = block
-                
-    ##Find the first empty row
-    def first_empty_row(self):
-        for y in range(len(self.grid)):
-            count = 0
-            for x in range(len(self.grid[y])):
-                if self.grid[y][x] != 0:
-                    count += 1
-                    break
-            if count == 0:
-                return y
-        else:
-            return -1
-        
+
     ##Simulates moves
     #Simulates moves up to the point where a row is empty
     #Starting from the bottom, a block is placed in a grid, moving right each time
     #Stoms simulating after the first empty row
-    def simulate(self):
+    def get_best_moves(self):
         scores = []
-        first_empty = self.first_empty_row()
+        first_empty = simulate.first_empty_row(self.grid)
         
         if first_empty == -1:
             return
