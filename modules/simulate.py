@@ -18,7 +18,7 @@ def place(y, x, grid, block, n=1, mode =""):
 
 ##Find the first empty row
 def first_empty_row(grid):
-    for y in range(len(grid)):
+    for y in range(len(grid)-1,-1,-1):
         count = 0
         for x in range(len(grid[y])):
             if grid[y][x] != 0:
@@ -28,6 +28,7 @@ def first_empty_row(grid):
             return y
     else:
         return -1
+
 
 def find_full_rows(grid):
     removed = 0

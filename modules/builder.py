@@ -1,4 +1,4 @@
-import flipper
+from modules import flipper
 
 ##Blueprint for all other blocks
 # Each block is represented by 0s (unoccupied) and 1s (occupied)

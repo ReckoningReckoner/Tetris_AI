@@ -15,4 +15,3 @@ An attempt at the AI Block battle.
 #Still to come:
 - Piece falling instructions
 - Battle block engine implementaion
-- Methodology of choosing which strategy to use

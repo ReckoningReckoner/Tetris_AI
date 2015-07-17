@@ -1,24 +1,11 @@
-import builder
-import debug
-import best_move
-import simulate
-import sys
-from simulate import drop_lines
+from modules import debug
+from modules import builder
+from modules import simulate
+from modules.prioritize import final
+from moves import best_move
 from random import randint
+import sys
 show_debug = True
-from prioritize import final
-
-
-# def single_best_move(block, grid):
-#     a = []
-#     for r in block.rotations():
-#         p = best_move.Possible_Moves(grid, r).get_best_moves()
-#         if p == None:
-#             return
-#         else:
-#             a.append(p)
-#
-#     return final(a)
 
 def get_command():
         s = raw_input('> ')
@@ -40,9 +27,7 @@ def get_command():
             return builder.J_Block()
         else: 
             return builder.blocks[randint(0, len(builder.blocks)-1)]
-            
-    
-            
+                   
 def play():
     WIDTH  = 8
     HEIGHT = 20
@@ -63,24 +48,38 @@ def play():
     c,removed = 0,0
     
     while True: 
-        block = get_command()        
- 
-        best = best_move.single_best_move(block, grid)
-        grid = simulate.place(best[3][0], best[3][1], grid, best[4], block.type())
+        block = get_command()
+                
+        if float(HEIGHT-1-simulate.first_empty_row(grid))/float(HEIGHT-1) < 0.25:
+            mode = 0
+        else:
+            mode = 1
+            
+        best = best_move.single_best_move(block, grid, mode)
+        
+        if best != None:
+            grid = simulate.place(best[3][0], best[3][1], grid, best[4], block.type())
 
-        if show_debug:
-            print("Move:")
-            print(best[0:4])
-            print("Before fall:")
-            debug.show(grid)
-    
-        grid = drop_lines(grid)
+            if show_debug:
+                print("Move:")
+                print(best[0:4])
+                print("Before fall:")
+                debug.show(grid)
 
-        if show_debug:
-            print("After fall:")
-            debug.show(grid)
-            removed += best[2]            
-            c +=1
-            print"Removed", removed
-            print"Height", best[0]
-            print"Round",c
+            grid = simulate.drop_lines(grid)
+
+            if show_debug:
+                print("After fall:")
+                debug.show(grid)
+                removed += best[2]            
+                c +=1
+                print"Combo", best[2]
+                print"Removed", removed
+                print"Height", best[0]
+                print"Round",c
+                # print"Percent full", percent_full
+                print"Mode", mode 
+        else:
+            print "Game over"
+            return
+        

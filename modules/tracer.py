@@ -1,6 +1,6 @@
 import debug
 import copy
-
+from simulate import first_empty_row
 show_debug = False
 
 ##Counts the number of holes in a grid
@@ -14,17 +14,6 @@ class Tracer:
         self.h           = 0
         self.first_empty = 0
 
-    def first_empty_row(self):
-        for y in range(len(self.grid)):
-            count = 0
-            for x in range(len(self.grid[y])):
-                if self.grid[y][x] != 0:
-                    count += 1
-                    break
-            if count == 0:
-                return y
-        else:
-            return -1
             
                     
     def trace(self, y, x):
@@ -38,7 +27,7 @@ class Tracer:
                 return True
                             
     def run(self):
-        self.first_empty = self.first_empty_row()
+        self.first_empty = first_empty_row(self.grid)
         for y in range(self.first_empty+2, len(self.grid), 1):
             for x in range(len(self.grid[y])):
                 if self.trace(y, x) == True:

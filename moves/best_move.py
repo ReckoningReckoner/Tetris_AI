@@ -9,30 +9,32 @@
 # xxxxx
 
 
-import debug
-import simulate
-import tracer
-from prioritize import final
+from modules import debug
+from modules import simulate
+from modules import tracer
+from modules.prioritize import final
 show_debug = False
 
-def single_best_move(block, grid):
+def single_best_move(block, grid, mode):
     a = []
     for r in block.rotations():
-        p = Possible_Moves(grid, r).get_best_moves()
+        p = Possible_Moves(grid, r, mode).get_best_moves()
         if p == None: 
             return
         else:
             a.append(p)
 
-    return final(a)
+    return final(a, mode)
     
 #Finds the best possible move based on a particular rotation of a peice
 #Each piece rotation creates an instance of this class (from run.py)
 class Possible_Moves:
     
-    def __init__(self, grid, block):
-        self.grid = grid
+    def __init__(self, grid, block, mode):
+        self.grid  = grid
         self.block = block
+        self.mode  = mode
+
 
     ##Simulates moves
     #Simulates moves up to the point where a row is empty
@@ -48,7 +50,7 @@ class Possible_Moves:
         if show_debug:
             print("Simulate First empty row",first_empty)
         
-        for y in range(len(self.grid)-1, -1, -1):
+        for y in range(len(self.grid)-1, first_empty-1, -1):
             for x in range(len(self.grid[y])-len(self.block[0])+1):
                 s = self.try_place(y, x, self.grid)
                 if s != None:
@@ -65,7 +67,10 @@ class Possible_Moves:
             print(final(scores))
             print(scores)
             
-        return final(scores)
+        if len(scores) > 0:
+            return final(scores, self.mode)
+        else:
+            return
             
     #Temporarily places a block in any position
     #If move is illegal it returns False

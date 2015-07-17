@@ -6,7 +6,7 @@
 # Date: July 14 2015
 # Copyright: Apache License 2.0
 
-from run import play
+from commands.run import play
 
 def main():
     play()
