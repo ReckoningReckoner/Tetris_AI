@@ -3,16 +3,19 @@ import copy
 #places a block in a grid given the top left y and x coordinate
 #returns that grid with said bloc
 
-def place(y, x, grid, block, n=1, mode =""):
+def place(y, x, grid, block, n=1, mode =''):
     if mode == 'dc':
         grid = copy.deepcopy(grid)
-    for y_p in range(y, y-len(block), -1):
+    for y_p in range(y, y-len(block), -1):        
         for x_p in range(x, x+len(block[0])):
-            y_b = len(block)-1-y+y_p
-            if grid[y_p][x_p] != 0 and block[y_b][x_p-x] != 0:
-                return
-            if block[y_b][x_p-x] != 0:
-                grid[y_p][x_p] = n
+            if y_p < -2 or y_p >= len(grid) or x_p < 0 or x_p >= len(grid[y]):
+                return None
+            else:
+                y_b = len(block)-1-y+y_p
+                if grid[y_p][x_p] != 0 and block[y_b][x_p-x] != 0:
+                    return None
+                if block[y_b][x_p-x] != 0:
+                    grid[y_p][x_p] = n
     return grid
 
 
@@ -36,7 +39,8 @@ def find_full_rows(grid):
         c = 0
         for x in range(len(grid[y])):
             if grid[y][x] != 0:
-                c+=1                
+                c+=1    
+                            
         if c == len(grid[y]):
             removed += 1
         

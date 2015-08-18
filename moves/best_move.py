@@ -15,7 +15,12 @@ from modules import tracer
 from modules.prioritize import final
 show_debug = False
 
-def single_best_move(block, grid, mode):
+def single_best_move(block, grid, percent_filled):
+    if percent_filled < 0.3:
+        mode = 0
+    else:
+        mode = 1
+            
     a = []
     for r in block.rotations():
         p = Possible_Moves(grid, r, mode).get_best_moves()

@@ -3,7 +3,7 @@ def prioritize_lines_removed(a):
     most_removed = a[-1][2]
 
     for i in range(len(a)-1,-1,-1):
-        if a[i][2] > most_removed:
+        if a[i][2] < most_removed:
             a.pop(i)
     return a
             
@@ -34,8 +34,8 @@ def prioritize_closest_left(a):
 def final(a, mode=1):
     if mode == 0: #Combos
         a = prioritize_number_of_holes(a)
-        a = prioritize_smallest_tower(a)
         a = prioritize_lines_removed(a)
+        a = prioritize_smallest_tower(a)
     elif mode == 1: # Clearing
         a = prioritize_lines_removed(a)
         a = prioritize_smallest_tower(a)

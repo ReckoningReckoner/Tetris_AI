@@ -12,7 +12,7 @@ class Block:
     #name is the name of the block
     def __init__(self):
         self.obj
-        self.rot
+        self.rots
         self.cases
         self.name
         
@@ -23,10 +23,18 @@ class Block:
     ##returns the type of block
     def type(self):
         return self.name
+    
+    def placement(self):
+        return self.obj
+        
         
 class T_Block(Block):
     def __init__(self):
         self.obj   = [[1,1,1],
+                      [0,1,0]]
+                      
+        self.rots  = [[0,0,0],
+                      [1,1,1],
                       [0,1,0]]
         self.cases = 4
         self.name  = "T"
@@ -35,6 +43,10 @@ class Z_Block(Block):
     def __init__(self):
         self.obj   = [[1,1,0],
                       [0,1,1]]
+                      
+        self.rots   = [[0,0,0],
+                      [1,1,0],
+                      [0,1,1]]
         self.cases = 4
         self.name  = "Z"
         
@@ -42,6 +54,7 @@ class O_Block(Block):
     def __init__(self):
         self.obj   = [[1,1],
                      [1,1]]
+        self.rots  = self.obj 
         self.cases = 1
         self.name  = "O"
         
@@ -49,12 +62,21 @@ class S_Block(Block):
     def __init__(self):
         self.obj   = [[0,1,1],
                       [1,1,0]]
+                      
+        self.rots  = [[0,0,0],
+                      [0,1,1],
+                      [1,1,0]]
         self.cases = 2
         self.name  = "S"
         
 class I_Block(Block):
     def __init__(self):
         self.obj   = [[1,1,1,1]]
+        
+        self.rots  = [[0,0,0,0],
+                      [1,1,1,1],
+                      [0,0,0,0],
+                      [0,0,0,0]]
         self.cases = 4
         self.name  = "I"
 
@@ -62,6 +84,10 @@ class J_Block(Block):
     def __init__(self):
         self.obj   = [[1,1,1],
                       [0,0,1]]
+                      
+        self.rots  =  [[0,0,0],
+                       [1,1,1],
+                       [0,0,1]]
         self.cases = 4
         self.name  = "J"
         
@@ -69,10 +95,14 @@ class L_Block(Block):
     def __init__(self):
         self.obj   = [[1,1,1],
                       [1,0,0]]
+                      
+        self.rots  =  [[0,0,0],
+                       [1,1,1],
+                       [1,0,0]]
         self.cases = 4
         self.name  = "L"
 
-blocks = [ T_Block(), 
+blocks  = [ T_Block(), 
            Z_Block(), 
            O_Block(), 
            S_Block(), 

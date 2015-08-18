@@ -13,8 +13,7 @@ def rotate_clockwise(obj):
     return reverse_row(transpose(obj))
     
 def rotate_cclockwise(obj):
-    return reversed(transpose(obj))
-    
+    return list(reversed(transpose(obj)))
     
 ##reverses each individual array in an array of arrays
 # ex:
